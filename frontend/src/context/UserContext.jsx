@@ -100,6 +100,7 @@ const { data } = await axios.post(`${server}/api/user/verify`, {
         loading,
         registerUser,
         verifyOtp,
+        fetchUser,
       }}
     >
       {children}
