@@ -1,6 +1,6 @@
 import React from "react";
 import "./paymentsuccess.css";
-import { useParams } from "react-router-dom";
+import {Link, useParams } from "react-router-dom";
 
 const PaymentSuccess = ({ user }) => {
   const params = useParams();

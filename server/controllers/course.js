@@ -93,7 +93,7 @@ export const paymentVerification = TryCatch(async(req,res)=>{
             razorpay_payment_id,
             razorpay_signature,
         });
-        const user = await user.findById(req.user._id);
+        const user = await User.findById(req.user._id);
 
         const course = await Courses.findById(req.params.id);
 
