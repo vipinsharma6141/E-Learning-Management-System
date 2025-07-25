@@ -5,6 +5,7 @@ import axios from "axios";
 import { server } from "../../main";
 import Loading from "../../components/loading/Loading";
 import toast from "react-hot-toast";
+import { TiTick } from "react-icons/ti";
 
 const Lecture = ({ user }) => {
   const [lectures, setLectures] = useState([]);
@@ -12,16 +13,21 @@ const Lecture = ({ user }) => {
   const [loading, setLoading] = useState(true);
   const [lecLoading, setLecLoading] = useState(false);
   const [show, setShow] = useState(false);
-  const params = useParams();
-  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [video, setVideo] = useState("");
   const [videoPrev, setVideoPrev] = useState("");
   const [btnLoading, setBtnLoading] = useState(false);
+  const [completed, setCompleted] = useState("");
+  const [completedLec, setCompletedLec] = useState("");
+  const [lecLength, setLecLength] = useState("");
+  const [progress, setProgress] = useState([]);
+  const params = useParams();
+  const navigate = useNavigate();
 
-  if (user && user.role !== "admin" && !user.subscription.includes(params.id))
+  if (user && user.role !== "admin" && !user.subscription.includes(params.id)) {
     return navigate("/");
+  }
 
   async function fetchLectures() {
     try {
@@ -37,6 +43,7 @@ const Lecture = ({ user }) => {
       setLoading(false);
     }
   }
+
   async function fetchLecture(id) {
     setLecLoading(true);
     try {
@@ -65,8 +72,8 @@ const Lecture = ({ user }) => {
   };
 
   const submitHandler = async (e) => {
-    setBtnLoading(true);
     e.preventDefault();
+    setBtnLoading(true);
     const myForm = new FormData();
 
     myForm.append("title", title);
@@ -92,7 +99,7 @@ const Lecture = ({ user }) => {
       setVideo("");
       setVideoPrev("");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Upload failed");
       setBtnLoading(false);
     }
   };
@@ -108,28 +115,76 @@ const Lecture = ({ user }) => {
         toast.success(data.message);
         fetchLectures();
       } catch (error) {
-        toast.error(error.response.data.message);
+        toast.error(error.response?.data?.message || "Delete failed");
       }
+    }
+  };
+
+  async function fetchProgress() {
+    try {
+      const { data } = await axios.get(
+        `${server}/api/user/progress?course=${params.id}`,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      );
+      setCompleted(data.courseProgressPercentage);
+      setCompletedLec(data.completedLectures);
+      setLecLength(data.allLectures);
+      setProgress(data.progress);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const addProgress = async (id) => {
+    try {
+      const { data } = await axios.post(
+        `${server}/api/user/progress?course=${params.id}&lectureId=${id}`,
+        {},
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      );
+      fetchProgress();
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
     fetchLectures();
+    fetchProgress();
   }, []);
+
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
         <>
+          <div className="progress">
+            Lecture completed - {completedLec} out of {lecLength} <br />
+            <progress value={completed} max={100}></progress> {completed} %
+          </div>
           <div className="lecture-page">
             <div className="left">
               {lecLoading ? (
                 <Loading />
               ) : (
                 <>
-                  {lecture.video ? (
-                    <>
+                  {lecture?.video ? (
+                    <div className="video-wrapper">
+                      <button
+                        className="exit-button"
+                        onClick={() => setLecture(null)}
+                      >
+                        ✕
+                      </button>
                       <video
                         src={`${server}/${lecture.video}`}
                         width={"100%"}
@@ -138,10 +193,11 @@ const Lecture = ({ user }) => {
                         disablePictureInPicture
                         disableRemotePlayback
                         autoPlay
+                        onEnded={() => addProgress(lecture._id)}
                       ></video>
                       <h1>{lecture.title}</h1>
                       <h3>{lecture.description}</h3>
-                    </>
+                    </div>
                   ) : (
                     <h1>Please Select a Lecture</h1>
                   )}
@@ -151,7 +207,7 @@ const Lecture = ({ user }) => {
             <div className="right">
               {user && user.role === "admin" && (
                 <button className="common-btn" onClick={() => setShow(!show)}>
-                  {show ? "Close" : "Add Lecture +"}{" "}
+                  {show ? "Close" : "Add Lecture +"}
                 </button>
               )}
 
@@ -159,7 +215,7 @@ const Lecture = ({ user }) => {
                 <div className="lecture-form">
                   <h2>Add Lecture</h2>
                   <form onSubmit={submitHandler}>
-                    <label htmlFor="text">Title</label>
+                    <label htmlFor="title">Title</label>
                     <input
                       type="text"
                       value={title}
@@ -167,7 +223,7 @@ const Lecture = ({ user }) => {
                       required
                     />
 
-                    <label htmlFor="text">Description</label>
+                    <label htmlFor="description">Description</label>
                     <input
                       type="text"
                       value={description}
@@ -182,12 +238,7 @@ const Lecture = ({ user }) => {
                       required
                     />
                     {videoPrev && (
-                      <video
-                        src={videoPrev}
-                        alt=""
-                        width={300}
-                        controls
-                      ></video>
+                      <video src={videoPrev} width={300} controls></video>
                     )}
 
                     <button
@@ -200,17 +251,29 @@ const Lecture = ({ user }) => {
                   </form>
                 </div>
               )}
+
               {lectures && lectures.length > 0 ? (
                 lectures.map((e, i) => (
-                  <>
+                  <div key={i}>
                     <div
                       onClick={() => fetchLecture(e._id)}
-                      key={i}
                       className={`lecture-number ${
-                        lecture._id === e._id && "active"
+                        lecture?._id === e._id ? "active" : ""
                       }`}
                     >
-                      {i + 1}.{e.title}
+                      {i + 1}. {e.title}{" "}
+                      {progress?.[0]?.completedLectures?.includes(e._id) && (
+                        <span
+                          style={{
+                            background: "green",
+                            padding: "2px",
+                            borderRadius: "6px",
+                            color: "greenyellow",
+                          }}
+                        >
+                          <TiTick />
+                        </span>
+                      )}
                     </div>
                     {user && user.role === "admin" && (
                       <button
@@ -221,7 +284,7 @@ const Lecture = ({ user }) => {
                         Delete {e.title}
                       </button>
                     )}
-                  </>
+                  </div>
                 ))
               ) : (
                 <p>No Lectures Yet!</p>

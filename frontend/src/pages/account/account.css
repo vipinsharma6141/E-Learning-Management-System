@@ -1,27 +1,85 @@
-.profile{
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    width: 30%;
-    margin: 185px auto;
+.account-page {
+  padding: 4rem 1rem;
+  background-color: #f4ecf9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  font-family: "Segoe UI", sans-serif;
+}
 
-    @media (max-width: 768px) {
-        padding: 10px;
-        width: 80%;
-        margin: 90px auto;
-    }
-    .profile-info{
-        text-align: left;
-        margin-top: 15px;
+.account-container {
+  background-color: #fff;
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 6px 20px rgba(138, 75, 175, 0.2);
+  text-align: center;
+}
 
-        p{
-            margin-bottom: 10px;
-            color: #333;
-            strong{
-                color: #8a4baf;
-            }
-        }
+.account-header .avatar-icon {
+  font-size: 5rem;
+  color: #8a4baf;
+  margin-bottom: 1rem;
+}
 
-    }
+.account-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.account-header p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 0.5rem;
+  background-color: #8a4baf;
+  color: white;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.account-actions {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.account-btn {
+  background-color: #8a4baf;
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.account-btn:hover {
+  background-color: #763d98;
+}
+
+.logout-btn {
+  background-color: #e74c3c;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
+}
+
+.not-logged {
+  color: #555;
+  font-size: 1.2rem;
 }

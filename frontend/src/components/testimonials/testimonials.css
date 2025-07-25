@@ -1,59 +1,56 @@
 .testimonials {
-  padding: 80px 0;
+  padding: 3rem 1rem;
+  background-color: #f4ecf9;
   text-align: center;
+}
 
-  h2 {
-    font-size: 32px;
-    color: #8a4baf;
-    margin-bottom: 30px;
-  }
-  .testimonials-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
+.testimonials h2 {
+  font-size: 2rem;
+  color: #8a4baf;
+  margin-bottom: 2rem;
+}
 
-    .testimonial-card {
-      background-color: white;
-      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      border-radius: 10px;
-      width: 300px;
-      text-align: left;
-      flex-direction: column;
-      align-items: center;
+.swiper {
+  padding-bottom: 2rem;
+}
 
-      @media (max-width: 768px) {
-        width: 80%;
-        text-align: center;
-      }
-      .student-image {
-        img {
-          width: 80px;
-          height: 80px;
-          border-radius: 50%;
-          object-fit: cover;
-          margin-bottom: 10px;
-        }
-      }
-      .message{
-        font-size: 16px;
-        color: #333;
-        margin-bottom: 10px;
-      }
-      .info{
-        text-align: center;
-      }
-      .name{
-        font-size: 18px;
-        font-weight: bold;
-        color: #8a4baf;
-        margin-bottom: 5px;
-      }
-      .position{
-        font-size: 14px;
-        color: #666;
-      }
-    }
-  }
+.testimonial-card {
+  background-color: #fff;
+  border: 2px solid #8a4baf;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(138, 75, 175, 0.1);
+  transition: transform 0.3s ease;
+  height: 100%;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(138, 75, 175, 0.2);
+}
+
+.student-image img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #8a4baf;
+  margin-bottom: 1rem;
+}
+
+.message {
+  color: #4a2b63;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.info .name {
+  font-weight: bold;
+  color: #8a4baf;
+  font-size: 1.1rem;
+}
+
+.info .position {
+  font-size: 0.9rem;
+  color: #6e5e79;
 }

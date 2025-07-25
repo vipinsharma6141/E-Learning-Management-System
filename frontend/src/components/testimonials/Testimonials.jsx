@@ -1,65 +1,118 @@
 import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 import "./testimonials.css";
 
 const Testimonials = () => {
-const testimonialsData = [
+  const testimonialsData = [
     {
       id: 1,
-      name: "John Doe",
-      position: "Student",
+      name: "Ananya Sharma",
+      position: "B.Tech Student",
       message:
-        "This platform helped me learn so effectively. The courses are amazing and the instructors are top-notch.",
-      image:
-        "https://th.bing.com/th?q=Current+Bachelor&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=moderate&t=1&mw=247",
+        "The platform made complex topics simple and engaging. I especially loved the hands-on coding challenges!",
+      image: "https://i.pravatar.cc/150?img=47",
     },
     {
       id: 2,
-      name: "Jane Smith",
-      position: "Student",
+      name: "Rahul Verma",
+      position: "Aspiring Web Developer",
       message:
-        "I've learned more here than in any other place. The interactive lessons and quizzes make learning enjoyable.",
-      image:
-        "https://th.bing.com/th/id/OIP.GKAiW3oc2TWXVEeZAzrWOAHaJF?w=135&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+        "Thanks to this platform, I built my first full-stack project and landed an internship!",
+      image: "https://i.pravatar.cc/150?img=12",
     },
     {
       id: 3,
-      name: "John Doe",
-      position: "Student",
+      name: "Sneha Kapoor",
+      position: "Final Year CS Student",
       message:
-        "This platform helped me learn so effectively. The courses are amazing and the instructors are top-notch.",
-      image:
-        "https://th.bing.com/th?q=Current+Bachelor&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=moderate&t=1&mw=247",
+        "Interactive lectures and real-world examples made learning super effective. Highly recommended!",
+      image: "https://i.pravatar.cc/150?img=32",
     },
     {
       id: 4,
-      name: "Jane Smith",
-      position: "Student",
+      name: "Arjun Mehta",
+      position: "Data Science Enthusiast",
       message:
-        "I've learned more here than in any other place. The interactive lessons and quizzes make learning enjoyable.",
-      image:
-        "https://th.bing.com/th/id/OIP.GKAiW3oc2TWXVEeZAzrWOAHaJF?w=135&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+        "The machine learning courses are top-tier. I appreciated the real datasets and projects.",
+      image: "https://i.pravatar.cc/150?img=33",
+    },
+    
+    {
+      id: 5,
+      name: "Kunal Joshi",
+      position: "UI/UX Design Student",
+      message:
+        "The design principles and Figma tutorials were beginner-friendly and very effective!",
+      image: "https://i.pravatar.cc/150?img=55",
+    },
+    {
+      id: 6,
+      name: "Ishita Malhotra",
+      position: "Backend Developer",
+      message:
+        "Loved the Node.js and MongoDB deep dive — really helped in building scalable apps.",
+      image: "https://i.pravatar.cc/150?img=23",
+    },
+    {
+      id: 7,
+      name: "Megha Das",
+      position: "AI/ML Beginner",
+      message:
+        "Learning Python and ML from scratch here was a smooth experience. Highly structured!",
+      image: "https://i.pravatar.cc/150?img=58",
+    },
+   
+    {
+      id: 8,
+      name: "Aanya Singh",
+      position: "Software Intern",
+      message:
+        "The real-world project examples helped me ace my internship assignments. Thank you!",
+      image: "https://i.pravatar.cc/150?img=35",
+    },
+    {
+      id: 9,
+      name: "Dev Mehta",
+      position: "Cybersecurity Learner",
+      message:
+        "The ethical hacking and cybersecurity fundamentals were very insightful and up-to-date.",
+      image: "https://i.pravatar.cc/150?img=44",
     },
   ];
 
   return (
     <section className="testimonials">
-        <h2>What our students say</h2>
-        <div className="testimonials-cards">
-          {
-            testimonialsData.map((e)=>(
-              <div className="testimonial-card" key={e.id}>
-                <div className="student-image">
-                  <img src={e.image} alt=""/>
-                </div>
-                <p className="message">{e.message}</p>
-                <div className="info">
-                  <p className="name">{e.name}</p>
-                  <p className="position">{e.position}</p>
-                </div>
+      <h2>What Our Learners Say</h2>
+      <Swiper
+        modules={[Autoplay, Pagination]}
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        pagination={{ clickable: true }}
+        spaceBetween={30}
+        slidesPerView={1}
+        loop={true}
+        breakpoints={{
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
+        }}
+      >
+        {testimonialsData.map((e) => (
+          <SwiperSlide key={e.id}>
+            <div className="testimonial-card">
+              <div className="student-image">
+                <img src={e.image} alt={e.name} />
               </div>
-            ))
-          };
-        </div>
+              <p className="message">“{e.message}”</p>
+              <div className="info">
+                <p className="name">{e.name}</p>
+                <p className="position">{e.position}</p>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </section>
   );
 };
